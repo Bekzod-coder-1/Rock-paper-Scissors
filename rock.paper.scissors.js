@@ -77,4 +77,4 @@ function nwGame (){
     let scoreDiv = document.querySelector("#score");
     scoreDiv.textContent = " Your points is " + humanScore + " the Points of PC " + computerScore;
 }
-restartGame.addEventListener("click", nwGame);// in diesem Fall braucht man das nicht 
+restartGame.addEventListener("click", nwGame);// in diesem Fall braucht man das nicht ()=> zusätzlich
