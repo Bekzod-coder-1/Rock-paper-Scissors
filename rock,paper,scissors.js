@@ -1,5 +1,4 @@
-// ROCK PAPER SCISSORS GAME
-console.log("Welcome to the Rock-Paper-Scissors game!");
+// ROCK PAPER SCISSORS GAME 
 
 function getComputerChoice(){//here to give random answer from the pc
     let random = Math.floor(Math.random() * 3);// with Support Math
@@ -12,66 +11,70 @@ function getComputerChoice(){//here to give random answer from the pc
     }   
 }
 
-function getHumanChoice(){
-     let choice;//here choice value is for while code
-    while(true){// the code if human gave false than return please give the correct form
-    choice = prompt("Please ! choice one of the ROCK, PAPER or SCISSORS").toLowerCase();
-    if ( choice === "rock"|| choice === "paper" || choice === "scissors"){
-        return choice;
-    }
-    console.log(" Invalid choice! Please enter rock, paper or scissors.")
-    }
-}
+let rockButton = document.querySelector("#rock");
+let paperButton = document.querySelector("#paper");
+let scissorsButton = document.querySelector("#scissors");
 
 let humanScore = 0;
 let computerScore = 0;
+let gameOver = false;
 
-function playRound(humanChoice, computerChoice){//decide which one of them wins
 
-if (humanChoice === computerChoice){
-    return "It is tie!";
-}else if(
-    (humanChoice === "rock" && computerChoice === "scissors")||
-    (humanChoice === "scissors" && computerChoice === "paper")||
-    (humanChoice === "paper" && computerChoice === "rock")
-){
-    humanScore++;
-    return "You win";
-}else{
-    computerScore++;
-    return "PC win";
-}
-}
-
-function playGame(){// the game is going to 5 Round 
-
-    for (let i = 0; i < 5; i++){//for round definition
-           const humanSelection = getHumanChoice();
-           const computerSelection = getComputerChoice();
-
-           console.log( "Round " + (i + 1));
-           console.log("You chose " + humanSelection);
-           console.log("PC chose " + computerSelection);
-
-           const result = playRound(humanSelection, computerSelection);
-           console.log(result);
-
-           if (result === humanSelection ){
-            humanScore++;
-           } else if (result === computerSelection ){
-            computerScore++;
-           }
-           console.log("Current score -> You: " + humanScore +"| PC: " + computerScore);       
+function playRound(playerSelection){
+    
+    if(gameOver){
+        return;
     }
+    const computerPlayer = getComputerChoice();
 
-    if(humanScore > computerScore){
-        console.log("Congratulations! You win game ");
-    } else if (computerScore > humanScore){
-        console.log(" PC wins the game");
-    } else {
-        console.log(" It is tie ! ");
+    let resultDiv = document.querySelector("#result");
+    let scoreDiv = document.querySelector("#score");
+
+    if(playerSelection === computerPlayer){
+        resultDiv.textContent = "it is tie!";
+    }else if(playerSelection === "rock" && computerPlayer === "scissors"||
+           playerSelection === "scissors" && computerPlayer ==="paper"||
+           playerSelection === "paper" && computerPlayer === "rock"
+    ){
+        humanScore++
+        resultDiv.textContent = "you win!";
+    }else{
+        computerScore++
+        resultDiv.textContent = "you lose!";
     }
-}
+    scoreDiv.textContent = "Your points " + humanScore + " und  Points of PC  " + computerScore;
+    
+    if(humanScore === 5){
+        gameOver = true;
+        resultDiv.textContent = " You won the game! "
+    } else if (computerScore === 5){
+        gameOver = true;
+        resultDiv.textContent = " PC won the game! "
+    }else {
+        return false;
+    }
+  };
+rockButton.addEventListener("click", ()=>{// hier braucht man ()=> weil man drei Event in einer function machen möchte.
+    playRound("rock" )
+});
+paperButton.addEventListener("click", ()=>{
+    playRound("paper" )
+});
+scissorsButton.addEventListener("click", ()=>{
+    playRound("scissors" )
+});
 
-playGame();
-console.log("The game end");
+let restartGame = document.querySelector("#restart");
+
+function nwGame (){
+    humanScore = 0;
+    computerScore = 0;
+    gameOver = false;
+
+    let resultDiv = document.querySelector("#result");
+    resultDiv.textContent = " The game is restarted! ";
+
+    let scoreDiv = document.querySelector("#score");
+    scoreDiv.textContent = " Your points is " + humanScore + " the Points of PC " + computerScore;
+}
+restartGame.addEventListener("click", nwGame);// in diesem Fall braucht man das nicht 
